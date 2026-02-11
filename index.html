@@ -7,24 +7,15 @@
   <meta name="description" content="A classified, randomly generated Valentine message—reshuffle to reveal new intel." />
   <style>
     :root{
-      --bg1:#ffdde1; /* light rose */
-      --bg2:#ee9ca7; /* pink */
-      --card:#ffffff;
-      --ink:#222;
-      --accent:#ff5c8a;
-      --accent-darker:#ff3a74;
-      --muted:#6b7280;
-      --shadow: 0 12px 30px rgba(0,0,0,.12);
-      --radius: 16px;
+      --bg1:#ffdde1; --bg2:#ee9ca7; --card:#ffffff; --ink:#222;
+      --accent:#ff5c8a; --accent-darker:#ff3a74; --muted:#6b7280;
+      --shadow: 0 12px 30px rgba(0,0,0,.12); --radius: 16px;
     }
 
     /* Animated gradient background */
     body{
-      margin:0;
-      min-height:100svh;
-      display:grid;
-      place-items:center;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      margin:0; min-height:100svh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol", sans-serif;
       color:var(--ink);
       background:
         radial-gradient(1200px 1200px at 10% 10%, #fff6f8 0 40%, transparent 41%) fixed,
@@ -34,86 +25,55 @@
     }
     @keyframes hue { to { filter:hue-rotate(20deg); } }
 
-    /* Subtle floating hearts (decorative) */
-    .floaters{
-      position:fixed; inset:0; overflow:hidden; pointer-events:none; opacity:.25;
-    }
+    /* Subtle floating hearts */
+    .floaters{ position:fixed; inset:0; overflow:hidden; pointer-events:none; opacity:.25; }
     .heart{
-      position:absolute;
-      width:18px; aspect-ratio:1;
-      transform: rotate(45deg);
-      background: #ff6fa3;
-      top:100%; left:var(--x,50%);
-      animation: rise var(--t,14s) linear infinite;
-      border-radius:2px;
+      position:absolute; width:18px; aspect-ratio:1; transform: rotate(45deg);
+      background:#ff6fa3; top:100%; left:var(--x,50%);
+      animation: rise var(--t,14s) linear infinite; border-radius:2px;
     }
-    .heart::before,.heart::after{
-      content:""; position:absolute; inset:auto;
-      width:100%; height:100%; background:inherit; border-radius:50%;
-    }
-    .heart::before{ left:-50%; }
-    .heart::after{ top:-50%; }
-    @keyframes rise {
-      0%   { transform: translateY(0) rotate(45deg) scale(.8); opacity:0; }
-      10%  { opacity:.9; }
-      100% { transform: translateY(-120vh) rotate(45deg) scale(1.2); opacity:0; }
+    .heart::before,.heart::after{ content:""; position:absolute; width:100%; height:100%; background:inherit; border-radius:50%; }
+    .heart::before{ left:-50%; } .heart::after{ top:-50%; }
+    @keyframes rise{
+      0%{ transform: translateY(0) rotate(45deg) scale(.8); opacity:0 }
+      10%{ opacity:.9 } 100%{ transform: translateY(-120vh) rotate(45deg) scale(1.2); opacity:0 }
     }
 
     .card{
-      background:var(--card);
-      border-radius:var(--radius);
+      background:var(--card); border-radius:var(--radius);
       padding: 2.2rem clamp(1.5rem, 4vw, 3rem);
       box-shadow:var(--shadow);
-      width:min(92vw, 620px);
-      text-align:center;
-      backdrop-filter: blur(2px);
+      width:min(92vw, 620px); text-align:center; backdrop-filter: blur(2px);
       transition: transform .2s ease, box-shadow .2s ease;
     }
-    .card:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.14); }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.14) }
 
-    h1{
-      margin:0 0 .25rem;
-      font-size: clamp(1.6rem, 3.8vw, 2.1rem);
-    }
-    .sub{
-      margin:0 0 1rem;
-      font-size:.95rem; color:var(--muted);
-    }
+    h1{ margin:0 0 .25rem; font-size: clamp(1.6rem, 3.8vw, 2.1rem) }
+    .sub{ margin:0 0 1rem; font-size:.95rem; color:var(--muted) }
 
     .msg{
-      min-height: 4.5rem;
-      font-size: clamp(1.1rem, 2.8vw, 1.35rem);
-      line-height:1.5;
-      margin: 1rem 0 0;
-      text-wrap: balance;
+      min-height: 4.5rem; font-size: clamp(1.1rem, 2.8vw, 1.35rem);
+      line-height:1.5; margin: 1rem 0 0; text-wrap: balance;
     }
 
     /* typewriter */
-    .type{
-      display:inline-block; border-right: 2px solid var(--accent);
-      animation: caret .9s steps(1) infinite;
-      padding-right: 2px;
-    }
-    @keyframes caret{ 50% { border-color: transparent; } }
+    .type{ display:inline-block; border-right:2px solid var(--accent); animation: caret .9s steps(1) infinite; padding-right:2px }
+    @keyframes caret{ 50%{ border-color:transparent } }
 
-    .actions{
-      display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin-top:1.5rem;
-    }
+    .actions{ display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin-top:1.5rem }
     button{
-      appearance:none; border:none; cursor:pointer;
-      background:var(--accent); color:white; font-weight:600;
+      appearance:none; border:none; cursor:pointer; background:var(--accent); color:white; font-weight:600;
       padding:.7rem 1.05rem; border-radius:10px; letter-spacing:.2px;
       transition: background .15s ease, transform .04s ease;
     }
-    button:hover{ background:var(--accent-darker); }
-    button:active{ transform: translateY(1px) scale(.99); }
-    button.secondary{ background:#eef0f6; color:#1f2937; }
-    button.ghost{ background:transparent; color:#1f2937; border:1px solid #e5e7eb; }
-    .hint{ font-size:.85rem; color:var(--muted); margin-top:.75rem; }
+    button:hover{ background:var(--accent-darker) }
+    button:active{ transform: translateY(1px) scale(.99) }
+    button.secondary{ background:#eef0f6; color:#1f2937 }
+    button.ghost{ background:transparent; color:#1f2937; border:1px solid #e5e7eb }
+    .hint{ font-size:.85rem; color:var(--muted); margin-top:.75rem }
 
-    /* Respect reduced motion preferences */
     @media (prefers-reduced-motion: reduce){
-      *{ animation: none !important; transition:none !important; }
+      *{ animation:none !important; transition:none !important }
     }
   </style>
 </head>
@@ -142,59 +102,53 @@
     <p class="hint" id="seedHint"></p>
   </main>
 
+  <!-- Confetti library (tiny, browser build) -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
   <script>
-    // ----- Data pools
+    // ===== Phrase pools (EN + FR) =====
     const openers = [
-      "Agent Z,",
-      "Hey you,",
-      "My favourite person,",
-      "Happy Valentine’s Day,",
-      "To the one stealing my heart,"
+      // English
+      "Agent Z,","Hey you,","My favourite person,","Happy Valentine’s Day,","To the one stealing my heart,",
+      // French
+      "Mon agent Z,","Coucou toi,","Ma personne préférée,","Joyeuse Saint‑Valentin,","À celle/ celui qui vole mon cœur,"
     ];
     const compliments = [
-      "you make my heart behave irresponsibly",
-      "I can’t stop smiling when I think about you",
-      "you’re dangerously charming",
-      "you’ve completely captured my attention",
-      "you make every day feel special"
+      // English
+      "you make my heart behave irresponsibly","I can’t stop smiling when I think about you",
+      "you’re dangerously charming","you’ve completely captured my attention","you make every day feel special",
+      // French
+      "tu fais battre mon cœur n’importe comment","je souris dès que je pense à toi",
+      "tu es dangereusement irrésistible","tu as capturé toute mon attention","tu rends chaque jour spécial"
     ];
     const actions = [
-      "and I’m counting down until I see you.",
-      "and I might like you more every day.",
-      "and I think we make a suspiciously perfect team.",
-      "and you’re my favourite distraction.",
-      "and tonight is going to be very interesting."
+      // English
+      "and I’m counting down until I see you.","and I might like you more every day.",
+      "and I think we make a suspiciously perfect team.","and you’re my favourite distraction.","and tonight is going to be very interesting.",
+      // French
+      "et j’ai hâte de te voir.","et je t’aime un peu plus chaque jour.",
+      "et je pense qu’on fait une équipe suspectement parfaite.","et tu es ma distraction préférée.","et ce soir s’annonce très intéressant."
     ];
     const closings = [
-      "💘 — Agent S",
-      "— yours, Sarah",
-      "— classified affection",
-      "— kisses incoming",
-      "— see you very soon"
+      // English
+      "💘 — Agent S","— yours, Sarah","— classified affection","— kisses incoming","— see you very soon",
+      // French
+      "💘 — Agent S","— à toi, Sarah","— affection classifiée","— pluie de baisers","— à très vite"
     ];
 
-    // ----- Deterministic RNG (for seedable messages)
+    // ===== Seedable RNG (for reproducible lines via ?seed=) =====
     function mulberry32(a){ return function(){ let t = a += 0x6D2B79F5; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; } }
-    const getSeed = () => {
-      const u = new URL(location.href);
-      const s = u.searchParams.get("seed");
-      return s ? Number(s) : null;
-    };
+    const getSeed = () => { const u = new URL(location.href); const s = u.searchParams.get("seed"); return s ? Number(s) : null; };
 
-    // ----- Utilities
+    // ===== Helpers =====
     const $ = sel => document.querySelector(sel);
-    function pick(arr, rng=Math.random){ return arr[Math.floor(rng()*arr.length)]; }
+    function pick(arr, rng=Math.random){ return arr[Math.floor(rng()*arr.length)] }
 
     function buildMessage(rng=Math.random){
-      return [
-        pick(openers, rng),
-        pick(compliments, rng) + ",",
-        pick(actions, rng),
-        pick(closings, rng)
-      ].join(" ");
+      return [ pick(openers, rng), pick(compliments, rng) + ",", pick(actions, rng), pick(closings, rng) ].join(" ");
     }
 
-    // Typewriter effect with reduced‑motion respect
+    // Typewriter (respects reduced motion)
     async function typeText(el, text){
       const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (prefersReduced){ el.textContent = text; return; }
@@ -206,22 +160,20 @@
         span.textContent = text.slice(0, i+1);
         await new Promise(r => setTimeout(r, 15 + Math.random()*25));
       }
-      span.classList.remove("type"); // stop caret blink when done
+      span.classList.remove("type");
     }
 
-    // Share helpers
+    // Copy & Share
     async function copyToClipboard(text){
       try { await navigator.clipboard.writeText(text); return true; }
       catch { return false; }
     }
-
     async function shareMessage(text){
       const url = new URL(location.href);
       if (navigator.share){
         try { await navigator.share({ title: "Classified Valentine", text, url: url.toString() }); return true; }
         catch { /* user cancelled */ }
       }
-      // fallback: copy + alert
       const ok = await copyToClipboard(text + "\n\n" + url.toString());
       alert(ok ? "Copied message + link to clipboard!" : "Could not share automatically—copied text.");
       return ok;
@@ -238,29 +190,45 @@
       localStorage.setItem("autoValentine", on ? "1" : "0");
     }
 
+    // ===== Confetti burst on click =====
+    function fireConfetti(){
+      // Graceful fallback if CDN blocked
+      if (typeof confetti !== "function") return;
+
+      const defaults = {
+        spread: 70, startVelocity: 45, gravity: 0.7, ticks: 200,
+        scalar: 1, shapes: ["square","circle"],
+        colors: ["#ff5c8a","#ff85a1","#ffd1dc","#ffffff","#ff3a74"]
+      };
+
+      // Center burst
+      confetti({ ...defaults, particleCount: 80, origin: { x: 0.5, y: 0.6 } });
+      // Side bursts
+      confetti({ ...defaults, particleCount: 50, origin: { x: 0.15, y: 0.8 } });
+      confetti({ ...defaults, particleCount: 50, origin: { x: 0.85, y: 0.8 } });
+    }
+
     // Main generate
     function generate(){
       const seed = getSeed();
       const rng = seed ? mulberry32(seed) : Math.random;
       const text = buildMessage(rng);
       typeText($("#message"), text);
-      // update shareable seed if seeded
       const hint = $("#seedHint");
-      if (seed){
-        hint.textContent = `Seeded message (seed=${seed}). Share this URL to reproduce exactly this line.`;
-      } else {
-        hint.textContent = `Tip: add ?seed=42 to the URL to share a reproducible message.`;
-      }
+      hint.textContent = seed
+        ? `Seeded message (seed=${seed}). Share this URL to reproduce exactly this line.`
+        : `Tip: add ?seed=42 to the URL to share a reproducible message.`;
       return text;
     }
 
     // Wire up buttons
     $("#btn-run").addEventListener("click", () => {
-      // If seeded, refresh with a new random seed so each click can be shared
+      // update seed so each click is shareable
       const u = new URL(location.href);
       u.searchParams.set("seed", Math.floor(Math.random()*1e9));
       history.replaceState({}, "", u);
       generate();
+      fireConfetti();                 // <<< confetti burst HERE
     });
 
     $("#btn-copy").addEventListener("click", async () => {
@@ -278,7 +246,7 @@
 
     // Init
     if (localStorage.getItem("autoValentine")==="1") setAuto(true);
-    generate(); // first run
+    generate(); // first run (no confetti on load)
   </script>
 </body>
 </html>
